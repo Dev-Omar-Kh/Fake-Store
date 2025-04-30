@@ -32,7 +32,7 @@ export default function Header() {
                 <span 
                     className='
                         absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center 
-                        rounded-full bg-[var(--violet-color)] text-[var(--white-color)] font-bold text-xs
+                        rounded-full bg-[var(--violet-color)] text-[var(--white-color)] text-[0.65rem]
                     '
                 >
                     {cartCount}

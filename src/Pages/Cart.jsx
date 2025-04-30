@@ -56,7 +56,7 @@ export default function Cart({setDisplayCartPage}) {
                             <h2 className='text-xl font-bold text-[var(--violet-color)]'>{item.name}</h2>
 
                             <div className='w-full flex items-center justify-between'>
-                                <p className='text-lg font-medium text-[var(--lighter-gray-color)]'>{item.quantity}</p>
+                                <p className='text-lg font-medium text-[var(--lighter-gray-color)]'>{item.quantity} Item</p>
                                 <p className='text-lg font-bold text-[var(--violet-color)]'>
                                     $ {(item.quantity * item.price).toFixed(2)}
                                 </p>

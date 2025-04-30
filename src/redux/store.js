@@ -1,40 +1,26 @@
-import { createStore } from 'redux';
-import pro1Img from '../assets/Images/cake_img.jpeg';
-import pro2Img from '../assets/Images/ice_cream_img.jpeg';
+import { createStore, applyMiddleware } from 'redux';
+import { thunk } from 'redux-thunk';
+import axios from 'axios';
 
 const initialState = {
 
     cartCount: 0,
-
     cartItems: [],
-
-    products: [
-
-        {
-            id: 1,
-            name: 'Chocolate Cake',
-            description: 'chocolate cake is a rich and decadent dessert made with layers of moist chocolate sponge cake.',
-            available: 10,
-            price: 99.99,
-            image: pro1Img
-        },
-
-        {
-            id: 2,
-            name: 'Oreo Ice Cream',
-            description: 'oreo ice cream is a delicious dessert made with crushed oreo cookies and creamy vanilla ice cream.',
-            available: 5,
-            price: 49.99,
-            image: pro2Img
-        }
-
-    ]
+    products: [],
+    loading: false,
+    error: null,
 
 };
 
 function reducer(state = initialState, action) {
 
     switch (action.type) {
+        case 'FETCH_PRODUCTS_REQUEST':
+            return { ...state, loading: true, error: null };
+        case 'FETCH_PRODUCTS_SUCCESS':
+            return { ...state, loading: false, products: action.payload };
+        case 'FETCH_PRODUCTS_FAILURE':
+            return { ...state, loading: false, error: action.payload };
         case 'ADD_TO_CART': {
             const updatedProducts = state.products.map(product => {
                 if (product.id === action.payload && product.available > 0) {
@@ -56,13 +42,24 @@ function reducer(state = initialState, action) {
                 products: updatedProducts
             };
         }
-
         default:
             return state;
     }
 
 }
 
-const store = createStore(reducer);
+export const fetchProducts = () => async (dispatch) => {
+
+    dispatch({ type: 'FETCH_PRODUCTS_REQUEST' });
+    try {
+        const response = await axios.get('https://traffic-fake-data-production.up.railway.app/reduxAppData');
+        dispatch({ type: 'FETCH_PRODUCTS_SUCCESS', payload: response.data });
+    } catch (error) {
+        dispatch({ type: 'FETCH_PRODUCTS_FAILURE', payload: error.message });
+    }
+
+};
+
+const store = createStore(reducer, applyMiddleware(thunk));
 
 export default store;

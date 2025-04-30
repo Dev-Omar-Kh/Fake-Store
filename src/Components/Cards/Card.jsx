@@ -37,7 +37,7 @@ export default function Card({ data, onAddToCart }) {
                 </button>
             </div>
 
-            <img src={data.image} alt="product" className='w-full max-h-80 object-cover rounded-md max-[670px]:min-h-max' />
+            <img src={data.image} alt={data.name} className='w-full max-h-80 object-cover rounded-md max-[670px]:min-h-max' />
 
             <h2 className='text-xl font-bold text-[var(--violet-color)]'>{data.name}</h2>
 
